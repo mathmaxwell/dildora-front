@@ -1,8 +1,10 @@
 import type { FormState } from '../types/form'
 
-// Базовый адрес backend. По умолчанию — локальный сервер на :8080.
-// Для прода задаётся через VITE_API_URL в .env.
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080'
+// Базовый адрес backend. По умолчанию — боевой сервер.
+// Можно переопределить через VITE_API_URL в .env (например, на localhost для
+// локальной разработки). Важно: .env подхватывается только при старте Vite,
+// поэтому дефолт держим прямо в коде, чтобы запрос всегда шёл на сервер.
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://194.163.144.40:8080'
 
 export interface SavedCard {
   id: number
