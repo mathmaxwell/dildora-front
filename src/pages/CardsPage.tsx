@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Container, Box, Typography, IconButton, Tooltip, TextField, InputAdornment,
-  MenuItem, List, ListItem, ListItemText, Divider, CircularProgress, Alert,
-  Snackbar, Button, Paper,
+  MenuItem, List, ListItem, ListItemText, ListItemAvatar, Avatar, Divider,
+  CircularProgress, Alert, Snackbar, Button, Paper, Chip, Stack,
 } from '@mui/material'
 import {
   SearchRounded, EditRounded, DeleteRounded, RefreshRounded,
@@ -115,14 +115,31 @@ export function CardsPage() {
   const fmtDate = (s?: string) => {
     if (!s) return ''
     const d = new Date(s)
-    return isNaN(d.getTime()) ? '' : d.toLocaleString()
+    return isNaN(d.getTime()) ? '' : d.toLocaleDateString()
   }
+
+  // Инициалы из ФИО для аватара.
+  const initials = (fio: string, id: number) => {
+    const parts = fio.trim().split(/\s+/).filter(Boolean)
+    if (!parts.length) return `#${id}`
+    return (parts[0][0] + (parts[1]?.[0] ?? '')).toUpperCase()
+  }
+  // Стабильный цвет аватара по id.
+  const AV_COLORS = ['#7C3AED', '#DB2777', '#2563EB', '#059669', '#D97706', '#DC2626']
+  const avColor = (id: number) => AV_COLORS[id % AV_COLORS.length]
 
   return (
     <Container maxWidth="md" sx={{ py: 4, pb: 6 }}>
       {/* Header */}
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2, gap: 1 }}>
-        <Typography variant="h5" fontWeight={700}>{tr.listTitle}</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+          <Typography variant="h5" fontWeight={700}>{tr.listTitle}</Typography>
+          {!loading && (
+            <Typography variant="body2" color="text.secondary">
+              ({visible.length})
+            </Typography>
+          )}
+        </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Button variant="contained" startIcon={<AddRounded />} onClick={handleNew}
             sx={{ borderRadius: 3, fontWeight: 700 }}>
@@ -210,12 +227,41 @@ export function CardsPage() {
                       </Box>
                     )
                   }
-                  sx={{ px: 2 }}
+                  sx={{ px: 2, py: 1.5 }}
                 >
+                  <ListItemAvatar>
+                    <Avatar sx={{ bgcolor: avColor(c.id), fontWeight: 700, fontSize: 15 }}>
+                      {initials(c.fio, c.id)}
+                    </Avatar>
+                  </ListItemAvatar>
                   <ListItemText
+                    sx={{ pr: 12 }}
                     primary={c.fio || `#${c.id}`}
-                    secondary={[c.phone, fmtDate(c.created_at)].filter(Boolean).join(' · ')}
+                    secondary={
+                      <Stack component="span" direction="row" spacing={0.75}
+                        sx={{ mt: 0.5, flexWrap: 'wrap', gap: 0.5 }}>
+                        {c.gest_weeks && (
+                          <Chip component="span" size="small" label={`${c.gest_weeks} ${tr.unitWeeks}`}
+                            sx={{ height: 22 }} />
+                        )}
+                        {c.age && (
+                          <Chip component="span" size="small" variant="outlined"
+                            label={`${c.age} ${tr.unitYears}`} sx={{ height: 22 }} />
+                        )}
+                        {c.phone && (
+                          <Typography component="span" variant="caption" color="text.secondary"
+                            sx={{ alignSelf: 'center' }}>
+                            {c.phone}
+                          </Typography>
+                        )}
+                        <Typography component="span" variant="caption" color="text.secondary"
+                          sx={{ alignSelf: 'center' }}>
+                          · {fmtDate(c.created_at)}
+                        </Typography>
+                      </Stack>
+                    }
                     primaryTypographyProps={{ fontWeight: 600 }}
+                    secondaryTypographyProps={{ component: 'div' }}
                   />
                 </ListItem>
               </motion.div>

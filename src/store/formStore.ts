@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import type {
   FormState, ComplaintItem, USRow,
   StringKey, BoolKey, ComplaintKey, USKey,
@@ -94,13 +95,27 @@ interface FormStore extends FormState {
   reset: () => void
 }
 
-export const useFormStore = create<FormStore>((set) => ({
-  ...initial,
-  setField: (key, val) => set({ [key]: val } as unknown as Partial<FormStore>),
-  setBool: (key, val) => set({ [key]: val } as unknown as Partial<FormStore>),
-  setComplaint: (key, field, val) =>
-    set((s) => ({ [key]: { ...(s[key] as ComplaintItem), [field]: val } })),
-  setUS: (key, trimester, val) =>
-    set((s) => ({ [key]: { ...(s[key] as USRow), [trimester]: val } })),
-  reset: () => set(initial),
-}))
+export const useFormStore = create<FormStore>()(
+  persist(
+    (set) => ({
+      ...initial,
+      setField: (key, val) => set({ [key]: val } as unknown as Partial<FormStore>),
+      setBool: (key, val) => set({ [key]: val } as unknown as Partial<FormStore>),
+      setComplaint: (key, field, val) =>
+        set((s) => ({ [key]: { ...(s[key] as ComplaintItem), [field]: val } })),
+      setUS: (key, trimester, val) =>
+        set((s) => ({ [key]: { ...(s[key] as USRow), [trimester]: val } })),
+      reset: () => set(initial),
+    }),
+    {
+      // Черновик формы переживает обновление/случайное закрытие страницы.
+      name: 'dildora-form-draft',
+      // Сохраняем только данные, без функций-экшенов.
+      partialize: (s) => {
+        const { setField, setBool, setComplaint, setUS, reset, ...data } = s
+        void setField; void setBool; void setComplaint; void setUS; void reset
+        return data
+      },
+    },
+  ),
+)

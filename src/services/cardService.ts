@@ -7,6 +7,9 @@ export interface SavedCard {
   phone: string
   created_at: string
   updated_at?: string
+  // Краткие поля для списка (достаются бэкендом из данных формы).
+  age?: string
+  gest_weeks?: string
 }
 
 // Полная карта с данными формы (приходит из GET /cards/{id}).

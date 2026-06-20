@@ -291,4 +291,5 @@ export const en: Translations = {
   sortOldest: "Oldest first",
   sortName: "By name (A-Z)",
   listNoMatch: "Nothing found",
+  sectionsButton: "Sections",
 }

@@ -291,4 +291,5 @@ export const uz: Translations = {
   sortOldest: "Avval eskilari",
   sortName: "Ism bo'yicha (A-Z)",
   listNoMatch: "Hech narsa topilmadi",
+  sectionsButton: "Bo'limlar",
 }

@@ -291,4 +291,5 @@ export const ru: Translations = {
   sortOldest: "Сначала старые",
   sortName: "По имени (А-Я)",
   listNoMatch: "Ничего не найдено",
+  sectionsButton: "Разделы",
 }

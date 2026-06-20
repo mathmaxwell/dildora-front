@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import type { FormState } from '../types/form'
 import { useFormStore } from './formStore'
 
@@ -14,20 +15,29 @@ interface EditStore {
   startNew: () => void
 }
 
-export const useEditStore = create<EditStore>((set) => ({
-  editingId: null,
-  editingName: '',
+export const useEditStore = create<EditStore>()(
+  persist(
+    (set) => ({
+      editingId: null,
+      editingName: '',
 
-  startEdit: (id, name, data) => {
-    // reset() ставит чистую форму, затем накладываем данные карты —
-    // так не остаётся "хвостов" от предыдущей карты.
-    useFormStore.getState().reset()
-    useFormStore.setState(data)
-    set({ editingId: id, editingName: name })
-  },
+      startEdit: (id, name, data) => {
+        // reset() ставит чистую форму, затем накладываем данные карты —
+        // так не остаётся "хвостов" от предыдущей карты.
+        useFormStore.getState().reset()
+        useFormStore.setState(data)
+        set({ editingId: id, editingName: name })
+      },
 
-  startNew: () => {
-    useFormStore.getState().reset()
-    set({ editingId: null, editingName: '' })
-  },
-}))
+      startNew: () => {
+        useFormStore.getState().reset()
+        set({ editingId: null, editingName: '' })
+      },
+    }),
+    {
+      // Чтобы после перезагрузки сохранение по-прежнему шло в ту же карту.
+      name: 'dildora-edit',
+      partialize: (s) => ({ editingId: s.editingId, editingName: s.editingName }),
+    },
+  ),
+)
