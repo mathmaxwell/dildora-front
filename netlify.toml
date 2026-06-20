@@ -1,0 +1,14 @@
+# Прокси на backend: браузер ходит на тот же HTTPS-домен Netlify (/api/...),
+# а Netlify на своей стороне проксирует запрос на HTTP-бэкенд.
+# Так нет mixed content (HTTPS-страница -> HTTP-запрос блокируется браузером).
+[[redirects]]
+  from = "/api/*"
+  to = "http://194.163.144.40:8080/api/:splat"
+  status = 200
+  force = true
+
+# SPA: все остальные пути отдаём index.html (клиентский роутинг).
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

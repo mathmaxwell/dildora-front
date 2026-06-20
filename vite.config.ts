@@ -1,13 +1,16 @@
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
-  return {
-    plugins: [react()],
-    define: {
-      'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(env.API_KEY),
-      'import.meta.env.VITE_GROQ_API_KEY': JSON.stringify(env.GROQ_API_KEY),
+export default defineConfig({
+  plugins: [react()],
+  // В dev фронт ходит на относительный /api, а Vite проксирует это на бэкенд —
+  // как делает Netlify в проде. Так один и тот же код работает и там, и там.
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://194.163.144.40:8080',
+        changeOrigin: true,
+      },
     },
-  }
+  },
 })
