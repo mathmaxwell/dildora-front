@@ -186,9 +186,9 @@ export function AiAnalysis() {
                         : '⏳ Too many requests. Wait ~1 minute and try again.'
                       )}
                       {error === 'NO_KEY' && (
-                        lang === 'ru' ? '🔑 GROQ_API_KEY не найден. Добавьте в файл .env'
-                        : lang === 'uz' ? "🔑 GROQ_API_KEY topilmadi. .env fayliga qo'shing"
-                        : '🔑 GROQ_API_KEY not found. Add it to .env file'
+                        lang === 'ru' ? '🔑 AI временно недоступен (ключ не настроен на сервере).'
+                        : lang === 'uz' ? '🔑 AI vaqtincha ishlamayapti (serverda kalit sozlanmagan).'
+                        : '🔑 AI is temporarily unavailable (key not configured on the server).'
                       )}
                       {error !== 'RATE_LIMIT' && error !== 'NO_KEY' && `${tr.aiError}: ${error}`}
                     </Alert>

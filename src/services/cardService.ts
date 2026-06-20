@@ -1,10 +1,5 @@
 import type { FormState } from '../types/form'
-
-// Базовый адрес backend. По умолчанию — боевой сервер.
-// Можно переопределить через VITE_API_URL в .env (например, на localhost для
-// локальной разработки). Важно: .env подхватывается только при старте Vite,
-// поэтому дефолт держим прямо в коде, чтобы запрос всегда шёл на сервер.
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://194.163.144.40:8080'
+import { apiUrl } from '../config/api'
 
 export interface SavedCard {
   id: number
@@ -19,7 +14,7 @@ export interface SavedCard {
  * Функции стора (setField и т.п.) JSON.stringify отбрасывает автоматически.
  */
 export async function saveCard(form: FormState): Promise<SavedCard> {
-  const res = await fetch(`${API_URL}/api/v1/cards`, {
+  const res = await fetch(apiUrl('cards'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(form),
