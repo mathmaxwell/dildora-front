@@ -271,4 +271,18 @@ export const ru: Translations = {
   saveSaving: "Сохраняю...",
   saveSuccess: "Карта сохранена",
   saveError: "Не удалось сохранить",
+  saveUpdate: "Сохранить изменения",
+  updateSuccess: "Карта обновлена",
+
+  // Cards list
+  listButton: "Сохранённые карты",
+  listTitle: "Сохранённые карты",
+  listEmpty: "Пока нет сохранённых карт",
+  listRefresh: "Обновить",
+  listEdit: "Редактировать",
+  listDelete: "Удалить",
+  listConfirmDelete: "Удалить эту карту?",
+  listDeleted: "Карта удалена",
+  editingLabel: "Редактирование",
+  newCard: "Новая карта",
 }

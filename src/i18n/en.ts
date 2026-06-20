@@ -271,4 +271,18 @@ export const en: Translations = {
   saveSaving: "Saving...",
   saveSuccess: "Card saved",
   saveError: "Could not save",
+  saveUpdate: "Save changes",
+  updateSuccess: "Card updated",
+
+  // Cards list
+  listButton: "Saved cards",
+  listTitle: "Saved cards",
+  listEmpty: "No saved cards yet",
+  listRefresh: "Refresh",
+  listEdit: "Edit",
+  listDelete: "Delete",
+  listConfirmDelete: "Delete this card?",
+  listDeleted: "Card deleted",
+  editingLabel: "Editing",
+  newCard: "New card",
 }

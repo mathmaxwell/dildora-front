@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
-import { Box, Button, LinearProgress, Tooltip, Typography } from '@mui/material'
-import { ArrowBackRounded, ArrowForwardRounded } from '@mui/icons-material'
+import { Box, Button, Chip, LinearProgress, Tooltip, Typography } from '@mui/material'
+import { ArrowBackRounded, ArrowForwardRounded, EditRounded, AddRounded } from '@mui/icons-material'
 import { AnimatePresence, motion } from 'framer-motion'
 import { GenericSection } from './sections/GenericSection'
 import { LabTests } from './sections/LabTests'
@@ -8,6 +8,7 @@ import { AiAnalysis } from './AiAnalysis'
 import { SaveButton } from './SaveButton'
 import { useTr } from '../hooks/useTr'
 import { useSectionColor } from '../hooks/useSectionColors'
+import { useEditStore } from '../store/editStore'
 import { SECTIONS } from '../config/formConfig'
 import type { SectionDef } from '../config/formConfig'
 
@@ -34,6 +35,8 @@ export function FormWizard() {
   const steps = useMemo(() => buildSteps(), [])
   const total = steps.length
 
+  const { editingId, editingName, startNew } = useEditStore()
+
   const [index, setIndex] = useState(0)
   const [dir, setDir] = useState<1 | -1>(1)
 
@@ -52,6 +55,33 @@ export function FormWizard() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+      {/* ── Editing banner ── */}
+      {editingId !== null && (
+        <Box
+          sx={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            gap: 1, flexWrap: 'wrap',
+            bgcolor: 'warning.light', color: 'warning.contrastText',
+            borderRadius: 2, px: 1.5, py: 1,
+          }}
+        >
+          <Chip
+            icon={<EditRounded />}
+            label={`${tr.editingLabel}: ${editingName}`}
+            size="small"
+            sx={{ bgcolor: 'rgba(0,0,0,0.12)', fontWeight: 600 }}
+          />
+          <Button
+            size="small"
+            startIcon={<AddRounded />}
+            onClick={startNew}
+            sx={{ fontWeight: 700, color: 'inherit' }}
+          >
+            {tr.newCard}
+          </Button>
+        </Box>
+      )}
+
       {/* ── Progress header ── */}
       <Box>
         {/* Step dots — tap to jump to any section */}

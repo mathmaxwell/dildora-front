@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { AppBar, Toolbar, Box, Typography, ToggleButtonGroup, ToggleButton, IconButton, Tooltip } from '@mui/material'
-import { Brightness4, Brightness7, FavoriteRounded } from '@mui/icons-material'
+import { Brightness4, Brightness7, FavoriteRounded, FolderOpenRounded } from '@mui/icons-material'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLangStore } from '../store/langStore'
 import { useModeStore } from '../store/modeStore'
 import { useTr } from '../hooks/useTr'
+import { CardsList } from './CardsList'
 import type { Lang } from '../types/lang'
 
 const MotionIconButton = motion.create(IconButton)
@@ -13,8 +15,10 @@ export function AppHeader() {
   const { lang, setLang } = useLangStore()
   const { mode, toggleMode } = useModeStore()
   const dark = mode === 'dark'
+  const [listOpen, setListOpen] = useState(false)
 
   return (
+    <>
     <motion.div
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -53,6 +57,18 @@ export function AppHeader() {
 
           {/* Controls */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Tooltip title={tr.listButton}>
+              <MotionIconButton
+                onClick={() => setListOpen(true)}
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                sx={{ color: 'white' }}
+              >
+                <FolderOpenRounded />
+              </MotionIconButton>
+            </Tooltip>
+
             <ToggleButtonGroup
               value={lang}
               exclusive
@@ -105,5 +121,8 @@ export function AppHeader() {
         </Toolbar>
       </AppBar>
     </motion.div>
+
+    <CardsList open={listOpen} onClose={() => setListOpen(false)} />
+    </>
   )
 }

@@ -271,4 +271,18 @@ export const uz: Translations = {
   saveSaving: "Saqlanmoqda...",
   saveSuccess: "Karta saqlandi",
   saveError: "Saqlab bo'lmadi",
+  saveUpdate: "O'zgarishlarni saqlash",
+  updateSuccess: "Karta yangilandi",
+
+  // Cards list
+  listButton: "Saqlangan kartalar",
+  listTitle: "Saqlangan kartalar",
+  listEmpty: "Hozircha kartalar yo'q",
+  listRefresh: "Yangilash",
+  listEdit: "Tahrirlash",
+  listDelete: "O'chirish",
+  listConfirmDelete: "Bu kartani o'chirishni tasdiqlaysizmi?",
+  listDeleted: "Karta o'chirildi",
+  editingLabel: "Tahrirlanmoqda",
+  newCard: "Yangi karta",
 }
