@@ -284,5 +284,11 @@ export const en: Translations = {
   listConfirmDelete: "Delete this card?",
   listDeleted: "Card deleted",
   editingLabel: "Editing",
-  newCard: "New card",
+  newCard: "New patient",
+  listSearchPh: "Search by name or phone",
+  listSort: "Sort",
+  sortNewest: "Newest first",
+  sortOldest: "Oldest first",
+  sortName: "By name (A-Z)",
+  listNoMatch: "Nothing found",
 }

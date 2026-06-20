@@ -284,5 +284,11 @@ export const ru: Translations = {
   listConfirmDelete: "Удалить эту карту?",
   listDeleted: "Карта удалена",
   editingLabel: "Редактирование",
-  newCard: "Новая карта",
+  newCard: "Новый пациент",
+  listSearchPh: "Поиск по имени или телефону",
+  listSort: "Сортировка",
+  sortNewest: "Сначала новые",
+  sortOldest: "Сначала старые",
+  sortName: "По имени (А-Я)",
+  listNoMatch: "Ничего не найдено",
 }

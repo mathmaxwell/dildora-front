@@ -284,5 +284,11 @@ export const uz: Translations = {
   listConfirmDelete: "Bu kartani o'chirishni tasdiqlaysizmi?",
   listDeleted: "Karta o'chirildi",
   editingLabel: "Tahrirlanmoqda",
-  newCard: "Yangi karta",
+  newCard: "Yangi bemor",
+  listSearchPh: "Ism yoki telefon bo'yicha qidirish",
+  listSort: "Saralash",
+  sortNewest: "Avval yangilari",
+  sortOldest: "Avval eskilari",
+  sortName: "Ism bo'yicha (A-Z)",
+  listNoMatch: "Hech narsa topilmadi",
 }

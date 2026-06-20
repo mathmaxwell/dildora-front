@@ -1,21 +1,27 @@
-import { useState } from 'react'
 import { AppBar, Toolbar, Box, Typography, ToggleButtonGroup, ToggleButton, IconButton, Tooltip } from '@mui/material'
-import { Brightness4, Brightness7, FavoriteRounded, FolderOpenRounded } from '@mui/icons-material'
+import { Brightness4, Brightness7, FavoriteRounded, FolderOpenRounded, PersonAddRounded } from '@mui/icons-material'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { useLangStore } from '../store/langStore'
 import { useModeStore } from '../store/modeStore'
+import { useEditStore } from '../store/editStore'
 import { useTr } from '../hooks/useTr'
-import { CardsList } from './CardsList'
 import type { Lang } from '../types/lang'
 
 const MotionIconButton = motion.create(IconButton)
 
 export function AppHeader() {
   const tr = useTr()
+  const navigate = useNavigate()
   const { lang, setLang } = useLangStore()
   const { mode, toggleMode } = useModeStore()
+  const startNew = useEditStore((s) => s.startNew)
   const dark = mode === 'dark'
-  const [listOpen, setListOpen] = useState(false)
+
+  const handleNew = () => {
+    startNew()
+    navigate('/')
+  }
 
   return (
     <>
@@ -57,9 +63,21 @@ export function AppHeader() {
 
           {/* Controls */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Tooltip title={tr.newCard}>
+              <MotionIconButton
+                onClick={handleNew}
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                sx={{ color: 'white' }}
+              >
+                <PersonAddRounded />
+              </MotionIconButton>
+            </Tooltip>
+
             <Tooltip title={tr.listButton}>
               <MotionIconButton
-                onClick={() => setListOpen(true)}
+                onClick={() => navigate('/cards')}
                 whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: 'spring', stiffness: 300 }}
@@ -121,8 +139,6 @@ export function AppHeader() {
         </Toolbar>
       </AppBar>
     </motion.div>
-
-    <CardsList open={listOpen} onClose={() => setListOpen(false)} />
     </>
   )
 }
